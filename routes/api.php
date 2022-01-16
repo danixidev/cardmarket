@@ -23,12 +23,18 @@ Route::middleware('checkDBConnection')->group(function() {
     Route::put('recover', [UsersController::class, 'recover']);
     Route::put('changePassword', [UsersController::class, 'changePassword']);
 
-    Route::middleware(['api-auth', 'admin-auth'])->group(function() {
-        Route::prefix('cards')->group(function() {
-            Route::put('create', [CardsController::class, 'create']);
+    Route::middleware('api-auth')->group(function() {
+
+        Route::middleware('admin-auth')->group(function() {
+            Route::prefix('cards')->group(function() {
+                Route::put('create', [CardsController::class, 'create']);
+                Route::put('addToCollection', [CardsController::class, 'addToCollection']);
+            });
+            Route::prefix('collections')->group(function() {
+                Route::put('create', [CollectionsController::class, 'create']);
+            });
         });
-        Route::prefix('collections')->group(function() {
-            Route::put('create', [CollectionsController::class, 'create']);
-        });
+
+
     });
 });
