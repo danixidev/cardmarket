@@ -15,9 +15,9 @@ class UsersController extends Controller
 
         //Comprueba los datos introducidos (que el usuario y mail son unicos y que en el rol has introducido un rol valido)
         $validator = Validator::make(json_decode($data, true), [
-            'username' => 'required|unique:users',
-            'email' => 'required|unique:users|max:255',
-            'password' => 'required',
+            'username' => 'required|unique:users|string',
+            'email' => 'required|unique:users|string',
+            'password' => 'required|string',
             'role' => 'required|in:particular,profesional,administrador',       //['particular', 'profesional', 'administrador']
         ]);
 
@@ -65,8 +65,8 @@ class UsersController extends Controller
 
         // Comprueba los datos que se tienen que introducir
         $validator = Validator::make(json_decode($data, true), [
-            'username' => 'required',
-            'password' => 'required',
+            'username' => 'required|string',
+            'password' => 'required|string',
         ]);
 
         //Si falla muestra el erorr
@@ -113,8 +113,8 @@ class UsersController extends Controller
 
         // Comprueba los datos que se tienen que introducir
         $validator = Validator::make(json_decode($data, true), [
-            'username' => 'required',
-            'email' => 'required',
+            'username' => 'required|string',
+            'email' => 'required|string',
         ]);
 
         //Si falla muestra el erorr
@@ -162,9 +162,9 @@ class UsersController extends Controller
 
         //comprueba los datos introducidos
         $validator = Validator::make(json_decode($data, true), [
-            'username' => 'required',
-            'old_password' => 'required',
-            'password' => 'required',
+            'username' => 'required|string',
+            'old_password' => 'required|string',
+            'password' => 'required|string',
         ]);
 
         $data = json_decode($data);

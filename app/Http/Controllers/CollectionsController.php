@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Card;
+use App\Models\Collection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-class CardsController extends Controller
+class CollectionsController extends Controller
 {
     public function create(Request $req) {
         $data = $req->getContent();
 
         $validator = Validator::make(json_decode($data, true), [
-            'name' => 'required|unique:cards|string',
-            'description' => 'required|string',
+            'name' => 'required|unique:collections|string',
+            'symbol' => 'required|string',
+            'release_date' => 'required|date',
         ]);
 
         if ($validator->fails()) {
@@ -25,14 +26,15 @@ class CardsController extends Controller
 
             $data = json_decode($data);
             try {
-                $card = new Card();
+                $collection = new Collection();
 
-                $card->name = $data->name;
-                $card->description = $data->description;
+                $collection->name = $data->name;
+                $collection->symbol = $data->symbol;
+                $collection->release_date = $data->release_date;
 
-                $card->save();
+                $collection->save();
 
-                $response['msg'] = "Carta creada correctamente con el id ".$card->id;
+                $response['msg'] = "Carta creada correctamente con el id ".$collection->id;
             } catch (\Throwable $th) {
                 $response['msg'] = "Se ha producido un error:".$th->getMessage();
                 $response['status'] = 0;
