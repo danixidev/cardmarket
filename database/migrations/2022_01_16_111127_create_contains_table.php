@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCollectionCardTable extends Migration
+class CreateContainsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateCollectionCardTable extends Migration
      */
     public function up()
     {
-        Schema::create('collection_card', function (Blueprint $table) {
+        Schema::create('contains', function (Blueprint $table) {
             $table->id();
             $table->foreignId('card_id')->constrained('cards');
             $table->foreignId('collection_id')->constrained('collections');
@@ -28,6 +28,6 @@ class CreateCollectionCardTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('collection_card');
+        Schema::dropIfExists('contains');
     }
 }
