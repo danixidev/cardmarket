@@ -16,8 +16,12 @@ class CollectionsController extends Controller
         $validator = Validator::make(json_decode($data, true), [
             'name' => 'required|unique:collections|string',
             'symbol' => 'required|string',
-            'release_date' => 'required|date',
+            'release_date' => 'required|date_format:Y-m-d',
+        ], [
+            'date_format' => 'El formato no coincide con YYYY-MM-DD (1999-03-25)',
         ]);
+
+        $nessages = [];
 
         if ($validator->fails()) {
             $response = ['status'=>0, 'msg'=>$validator->errors()->first()];
@@ -34,7 +38,7 @@ class CollectionsController extends Controller
 
                 $collection->save();
 
-                $response['msg'] = "Carta creada correctamente con el id ".$collection->id;
+                $response['msg'] = "Coleccion creada correctamente con el id ".$collection->id;
             } catch (\Throwable $th) {
                 $response['msg'] = "Se ha producido un error:".$th->getMessage();
                 $response['status'] = 0;

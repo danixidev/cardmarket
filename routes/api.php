@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CardsController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\CollectionsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
