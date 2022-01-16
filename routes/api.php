@@ -21,7 +21,7 @@ Route::middleware('checkDBConnection')->group(function() {
     Route::put('recover', [UsersController::class, 'recover']);
     Route::put('changePassword', [UsersController::class, 'changePassword']);
 
-    Route::prefix('users')->group(function() {
+    Route::middleware('auth-admin')->group(function() {
 
     });
 });
