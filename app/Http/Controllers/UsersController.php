@@ -59,7 +59,6 @@ class UsersController extends Controller
         return response()->json($response);
     }
 
-
     public function login(Request $req) {
         $data = $req->getContent();
 
@@ -102,7 +101,6 @@ class UsersController extends Controller
                 $response['msg'] = "Se ha producido un error: ".$th->getMessage();
                 $response['status'] = 0;
             }
-
 
         }
         return response()->json($response);
