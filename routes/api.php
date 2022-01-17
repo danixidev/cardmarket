@@ -35,8 +35,9 @@ Route::middleware('checkDBConnection')->group(function() {
             });
         });
 
+        Route::put('search', [CardsController::class, 'search']);
+
         Route::middleware('notadmin-auth')->group(function() {
-            Route::put('search', [CardsController::class, 'search']);
             Route::put('searchToBuy', [CardsController::class, 'searchToBuy']);
             Route::put('sell', [CardsController::class, 'sell']);
             Route::put('buy', [CardsController::class, 'buy']);

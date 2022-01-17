@@ -23,7 +23,7 @@ class AuthNotAdmin
                 $request->user = $user;
                 return $next($request);
             } else {
-                return response("User doesn't have enough permissions", 401);
+                return response("User doesn't have enough permissions", 403);
             }
         } catch (\Throwable $th) {
             return response($th->getMessage(), 500);

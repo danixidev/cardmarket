@@ -34,7 +34,7 @@ class CollectionsController extends Controller
             try {
 
                 $card = Card::where('name', $data->card_name)->first();
-                if($data->card_description) {
+                if(isset($data->card_description)) {
                     if(!$card) {
                         $collection = new Collection();
                         $collection->name = $data->name;
