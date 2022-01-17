@@ -95,6 +95,37 @@ class CardsController extends Controller
         return response()->json($response);
     }
 
+    public function search(Request $req) {
+        $data = $req->getContent();
+
+        $validator = Validator::make(json_decode($data, true), [
+            'card_name' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            $response = ['status'=>0, 'msg'=>$validator->errors()->first()];
+        } else {
+            $response = ['status'=>1, 'msg'=>''];
+
+            $data = json_decode($data);
+            try {
+                $card = Card::where('name', 'like', '%'.$data->card_name.'%')->get();
+                if(Card::where('name', 'like', '%'.$data->card_name.'%')->first()) {
+                    $response['msg'] = "Carta encontrada.";
+                    $response['status'] = 1;
+                    $response['datos'] = $card;
+                } else {
+                    $response['msg'] = "No existe ninguna carta que contenga esa palabra o palabras.";
+                    $response['status'] = 0;
+                }
+            } catch (\Throwable $th) {
+                $response['msg'] = "Se ha producido un error:".$th->getMessage();
+                $response['status'] = 0;
+            }
+        }
+        return response()->json($response);
+    }
+
     public function sell(Request $req) {
         $data = $req->getContent();
 
