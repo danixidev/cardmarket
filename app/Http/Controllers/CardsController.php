@@ -51,6 +51,7 @@ class CardsController extends Controller
         }
         return response()->json($response);
     }
+
     public function addToCollection(Request $req) {
         $data = $req->getContent();
 
