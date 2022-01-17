@@ -17,7 +17,8 @@ class CollectionsController extends Controller
             'name' => 'required|unique:collections|string',
             'symbol' => 'required|string',
             'release_date' => 'required|date_format:Y-m-d',
-            'card_name' => 'required|date_format:Y-m-d',
+            'card_name' => 'required|string',
+            'card_description' => 'string',
         ], [
             'date_format' => 'El formato no coincide con YYYY-MM-DD (1999-03-25)',
         ]);
@@ -31,23 +32,49 @@ class CollectionsController extends Controller
 
             $data = json_decode($data);
             try {
+
                 $card = Card::where('name', $data->card_name)->first();
-                if($card) {
-                    $collection = new Collection();
-                    $collection->name = $data->name;
-                    $collection->symbol = $data->symbol;
-                    $collection->release_date = $data->release_date;
-                    $collection->save();
+                if($data->card_description) {
+                    if(!$card) {
+                        $collection = new Collection();
+                        $collection->name = $data->name;
+                        $collection->symbol = $data->symbol;
+                        $collection->release_date = $data->release_date;
+                        $collection->save();
 
-                    $contain = new Contain();
-                    $contain->card_id = $card->id;
-                    $contain->collection_id = $collection->id;
-                    $contain->save();
+                        $card = new Card();
+                        $card->name = $data->card_name;
+                        $card->description = $data->card_description;
+                        $card->save();
 
-                    $response['msg'] = "Coleccion creada correctamente con el id ".$collection->id;
+                        $contain = new Contain();
+                        $contain->card_id = $card->id;
+                        $contain->collection_id = $collection->id;
+                        $contain->save();
+
+                        $response['msg'] = "Coleccion creada correctamente con el id ".$collection->id;
+                    } else {
+                        $response['msg'] = "Ya existe una carta por ese nombre";
+                        $response['status'] = 0;
+                    }
                 } else {
-                    $response['msg'] = "No existe ninguna carta con ese nombre";
-                    $response['status'] = 0;
+                    if($card) {
+                        $collection = new Collection();
+                        $collection->name = $data->name;
+                        $collection->symbol = $data->symbol;
+                        $collection->release_date = $data->release_date;
+                        $collection->save();
+
+                        $contain = new Contain();
+                        $contain->card_id = $card->id;
+                        $contain->collection_id = $collection->id;
+                        $contain->save();
+
+                        $response['msg'] = "Coleccion creada correctamente con el id ".$collection->id;
+                    } else {
+                        $response['msg'] = "No existe ninguna carta con ese nombre";
+                        $response['status'] = 0;
+                    }
                 }
             } catch (\Throwable $th) {
                 $response['msg'] = "Se ha producido un error:".$th->getMessage();
