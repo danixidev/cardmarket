@@ -35,6 +35,9 @@ Route::middleware('checkDBConnection')->group(function() {
             });
         });
 
-
+        Route::middleware('notadmin-auth')->group(function() {
+            Route::put('sell', [CardsController::class, 'sell']);
+            Route::put('buy', [CardsController::class, 'buy']);
+        });
     });
 });

@@ -65,6 +65,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'checkDBConnection' => \App\Http\Middleware\CheckDBConnection::class,
         'admin-auth' => \App\Http\Middleware\AuthAdmin::class,
+        'notadmin-auth' => \App\Http\Middleware\AuthNotAdmin::class,
         'api-auth' => \App\Http\Middleware\AuthApiToken::class,
     ];
 }

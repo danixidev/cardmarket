@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Card;
 use App\Models\Collection;
 use App\Models\Contain;
+use App\Models\Offer;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
@@ -82,6 +83,45 @@ class CardsController extends Controller
                         $response['msg'] = "No existe ninguna coleccion con ese nombre";
                         $response['status'] = 0;
                     }
+                } else {
+                    $response['msg'] = "No existe ninguna carta con ese nombre";
+                    $response['status'] = 0;
+                }
+            } catch (\Throwable $th) {
+                $response['msg'] = "Se ha producido un error:".$th->getMessage();
+                $response['status'] = 0;
+            }
+        }
+        return response()->json($response);
+    }
+
+    public function sell(Request $req) {
+        $data = $req->getContent();
+
+        $validator = Validator::make(json_decode($data, true), [
+            'card_name' => 'required|string',
+            'amount' => 'required|integer',
+            'price' => 'required|integer',
+        ]);
+
+        if ($validator->fails()) {
+            $response = ['status'=>0, 'msg'=>$validator->errors()->first()];
+        } else {
+            $response = ['status'=>1, 'msg'=>''];
+
+            $data = json_decode($data);
+            try {
+                $card = Card::where('name', $data->card_name)->first();
+                if($card) {
+                    $offer = new Offer();
+                    $offer->user_id = $req->user->id;
+                    $offer->card_id = $card->id;
+                    $offer->amount = $data->amount;
+                    $offer->price = $data->price;
+                    $offer->save();
+
+                    $response['msg'] = "Oferta de venta creada correctamente.";
+                    $response['status'] = 1;
                 } else {
                     $response['msg'] = "No existe ninguna carta con ese nombre";
                     $response['status'] = 0;

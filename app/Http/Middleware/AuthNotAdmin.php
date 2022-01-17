@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class AuthAdmin
+class AuthNotAdmin
 {
     /**
      * Handle an incoming request.
@@ -19,7 +19,7 @@ class AuthAdmin
         try {
             $user = $request->user;
 
-            if($user->role == 'administrador') {
+            if($user->role != 'administrador') {
                 $request->user = $user;
                 return $next($request);
             } else {
