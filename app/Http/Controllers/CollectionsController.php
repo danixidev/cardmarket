@@ -17,7 +17,7 @@ class CollectionsController extends Controller
             'name' => 'required|unique:collections|string',
             'symbol' => 'required|string',
             'release_date' => 'required|date_format:Y-m-d',
-            'card_name' => 'required|string',
+            'card_id' => 'required|integer',
             'card_description' => 'string',
         ], [
             'date_format' => 'El formato no coincide con YYYY-MM-DD (1999-03-25)',
@@ -33,7 +33,7 @@ class CollectionsController extends Controller
             $data = json_decode($data);
             try {
 
-                $card = Card::where('name', $data->card_name)->first();
+                $card = Card::where('id', $data->card_id)->first();
                 if(isset($data->card_description)) {
                     if(!$card) {
                         $collection = new Collection();
