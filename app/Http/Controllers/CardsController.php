@@ -16,7 +16,7 @@ class CardsController extends Controller
         $data = $req->getContent();
 
         $validator = Validator::make(json_decode($data, true), [
-            'name' => 'required|unique:cards|string',
+            'name' => 'required|string',
             'description' => 'required|string',
             'collection_name' => 'required|string',
         ]);
@@ -58,8 +58,8 @@ class CardsController extends Controller
         $data = $req->getContent();
 
         $validator = Validator::make(json_decode($data, true), [
-            'card_name' => 'required|string',
-            'collection_name' => 'required|string',
+            'card_id' => 'required|integer',
+            'collection_id' => 'required|integer',
         ]);
 
         if ($validator->fails()) {
@@ -69,9 +69,9 @@ class CardsController extends Controller
 
             $data = json_decode($data);
             try {
-                $card = Card::where('name', $data->card_name)->first();
+                $card = Card::where('id', $data->card_id)->first();
                 if($card) {
-                    $collection = Collection::where('name', $data->collection_name)->first();
+                    $collection = Collection::where('id', $data->collection_id)->first();
                     if($collection) {
 
                         $contain = new Contain();
@@ -81,11 +81,11 @@ class CardsController extends Controller
 
                         $response['msg'] = "Carta añadida a la coleccion correctamente";
                     } else {
-                        $response['msg'] = "No existe ninguna coleccion con ese nombre";
+                        $response['msg'] = "No existe ninguna coleccion con esa id";
                         $response['status'] = 0;
                     }
                 } else {
-                    $response['msg'] = "No existe ninguna carta con ese nombre";
+                    $response['msg'] = "No existe ninguna carta con esa id";
                     $response['status'] = 0;
                 }
             } catch (\Throwable $th) {

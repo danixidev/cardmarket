@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('checkDBConnection')->group(function() {
-    Route::put('register', [UsersController::class, 'register']);
+    Route::post('register', [UsersController::class, 'register']);
     Route::put('login', [UsersController::class, 'login']);
     Route::put('recover', [UsersController::class, 'recover']);
     Route::put('changePassword', [UsersController::class, 'changePassword']);
@@ -27,11 +27,11 @@ Route::middleware('checkDBConnection')->group(function() {
 
         Route::middleware('admin-auth')->group(function() {
             Route::prefix('cards')->group(function() {
-                Route::put('create', [CardsController::class, 'create']);
+                Route::post('create', [CardsController::class, 'create']);
                 Route::put('addToCollection', [CardsController::class, 'addToCollection']);
             });
             Route::prefix('collections')->group(function() {
-                Route::put('create', [CollectionsController::class, 'create']);
+                Route::post('create', [CollectionsController::class, 'create']);
             });
         });
 
