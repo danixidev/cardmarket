@@ -18,7 +18,7 @@ class CardsController extends Controller
         $validator = Validator::make(json_decode($data, true), [
             'name' => 'required|string',
             'description' => 'required|string',
-            'collection_name' => 'required|string',
+            'collection_id' => 'required|integer',
         ]);
 
         if ($validator->fails()) {
@@ -28,7 +28,7 @@ class CardsController extends Controller
 
             $data = json_decode($data);
             try {
-                $collection = Collection::where('name', $data->collection_name)->first();
+                $collection = Collection::where('id', $data->collection_id)->first();
                 if($collection) {
 
                     $card = new Card();
@@ -155,7 +155,7 @@ class CardsController extends Controller
                     $response['msg'] = "Oferta de venta creada correctamente.";
                     $response['status'] = 1;
                 } else {
-                    $response['msg'] = "No existe ninguna carta con ese nombre";
+                    $response['msg'] = "No existe ninguna carta con esa id";
                     $response['status'] = 0;
                 }
             } catch (\Throwable $th) {
