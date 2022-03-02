@@ -26,7 +26,7 @@ class UserTest extends TestCase
 
         // var_dump($response->original);
     }
-    public function test_incorrectNamePassword()
+    public function test_incorrectData()
     {
         $response = $this->put(
             '/api/login',
@@ -44,7 +44,7 @@ class UserTest extends TestCase
 
         // var_dump($response->original);
     }
-    public function test_correctNamePassword()
+    public function test_correctData()
     {
         $response = $this->put(
             '/api/login',
