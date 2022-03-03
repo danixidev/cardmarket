@@ -87,10 +87,15 @@ class UsersController extends Controller
 
                     if($user) {
                         if(Hash::check($data->password, $user->password)) {     //Si existe comprueba la contraseña introducida
-                            $token = Hash::make(now().$user->id);
 
-                            $user->api_token = $token;      //Si coincide inicia sesión creando un token
-                            $user->save();
+                            if($user->api_token) {
+                                $token = $user->api_token;
+                            } else {
+                                $token = Hash::make(now().$user->id);
+
+                                $user->api_token = $token;      //Si coincide inicia sesión creando un token
+                                $user->save();
+                            }
 
                             $response['data'] = $token;
                             $response['msg'] = "Sesión iniciada correctamente.";
