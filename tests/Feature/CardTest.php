@@ -13,7 +13,7 @@ class CardTest extends TestCase
         $data = [
             "name" => "Mago de cristal",
             "description" => "Carta de mago con poderes de cristalizacion",
-            "collection" => "1"
+            "collection_id" => "1"
         ];
 
         $headers = [
@@ -32,7 +32,7 @@ class CardTest extends TestCase
         $data = [
             "name" => "",
             "description" => "",
-            "collection" => ""
+            "collection_id" => ""
         ];
 
         $headers = [
@@ -54,7 +54,7 @@ class CardTest extends TestCase
         $data = [
             "name" => "Mago de cristal",
             "description" => "Carta de mago con poderes de cristalizacion",
-            "collection" => "0"
+            "collection_id" => "0"
         ];
 
         $headers = [
@@ -76,7 +76,7 @@ class CardTest extends TestCase
         $data = [
             "name" => "Mago de cristal",
             "description" => "Carta de mago con poderes de cristalizacion",
-            "collection" => "1"
+            "collection_id" => "1"
         ];
 
         $headers = [
@@ -86,7 +86,10 @@ class CardTest extends TestCase
         $response = $this->postJson('/api/cards/create', $data, $headers);
 
         $response
-            ->assertStatus(200);
+            ->assertStatus(200)
+            ->assertJson([
+                'status' => 1,
+            ]);
 
 
         // var_dump($response->original);
