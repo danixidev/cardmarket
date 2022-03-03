@@ -10,41 +10,36 @@ class CardTest extends TestCase
 {
     public function test_noApiToken()
     {
-        $response = $this->post(
-            '/api/cards/create',
-            [
-                "name" => "Mago de cristal",
-                "description" => "Carta de mago con poderes de cristalizacion",
-                "collection" => "1"
-            ]
-        )->parameters(
-            [
-                "api_token" => ""
-            ]
-        );
+        $data = [
+            "name" => "Mago de cristal",
+            "description" => "Carta de mago con poderes de cristalizacion",
+            "collection" => "1"
+        ];
+
+        $headers = [
+            "api-token" => ''
+        ];
+
+        $response = $this->postJson('/api/cards/create', $data, $headers);
 
         $response
-            ->assertStatus(200)
-            ->assertJson([
-                'status' => 0,
-            ]);
+            ->assertStatus(401);
 
         // var_dump($response->original);
     }
     public function test_noData()
     {
-        $response = $this->post(
-            '/api/cards/create',
-            [
-                "name" => "",
-                "description" => "",
-                "collection" => ""
-            ]
-        )->parameters(
-            [
-                "api_token" => "token"
-            ]
-        );
+        $data = [
+            "name" => "",
+            "description" => "",
+            "collection" => ""
+        ];
+
+        $headers = [
+            "api-token" => '$2y$10$R48DO.Nuj/Ob4fxScB4bhO0wo8y0F7rHGqcsYHz/fAUX0DgmtVxX.'
+        ];
+
+        $response = $this->postJson('/api/cards/create', $data, $headers);
 
         $response
             ->assertStatus(200)
@@ -56,18 +51,17 @@ class CardTest extends TestCase
     }
     public function test_incorrectCollection()
     {
-        $response = $this->post(
-            '/api/cards/create',
-            [
-                "name" => "Mago de cristal",
-                "description" => "Carta de mago con poderes de cristalizacion",
-                "collection" => "0"
-            ]
-        )->parameters(
-            [
-                "api_token" => "token"
-            ]
-        );
+        $data = [
+            "name" => "Mago de cristal",
+            "description" => "Carta de mago con poderes de cristalizacion",
+            "collection" => "0"
+        ];
+
+        $headers = [
+            "api-token" => '$2y$10$R48DO.Nuj/Ob4fxScB4bhO0wo8y0F7rHGqcsYHz/fAUX0DgmtVxX.'
+        ];
+
+        $response = $this->postJson('/api/cards/create', $data, $headers);
 
         $response
             ->assertStatus(200)
@@ -79,24 +73,21 @@ class CardTest extends TestCase
     }
     public function test_correctData()
     {
-        $response = $this->post(
-            '/api/cards/create',
-            [
-                "name" => "Mago de cristal",
-                "description" => "Carta de mago con poderes de cristalizacion",
-                "collection" => "1"
-            ]
-        )->parameters(
-            [
-                "api_token" => "token"
-            ]
-        );
+        $data = [
+            "name" => "Mago de cristal",
+            "description" => "Carta de mago con poderes de cristalizacion",
+            "collection" => "1"
+        ];
+
+        $headers = [
+            "api-token" => '$2y$10$R48DO.Nuj/Ob4fxScB4bhO0wo8y0F7rHGqcsYHz/fAUX0DgmtVxX.'
+        ];
+
+        $response = $this->postJson('/api/cards/create', $data, $headers);
 
         $response
-            ->assertStatus(200)
-            ->assertJson([
-                'status' => 1,
-            ]);
+            ->assertStatus(200);
+
 
         // var_dump($response->original);
     }

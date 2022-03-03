@@ -10,13 +10,12 @@ class UserTest extends TestCase
 {
     public function test_noName()
     {
-        $response = $this->put(
-            '/api/login',
-            [
-                "username" => "",
-                "password" => "Daniel1"
-            ]
-        );
+        $data = [
+            "username" => "",
+            "password" => "Daniel1"
+        ];
+
+        $response = $this->putJson('/api/login', $data);
 
         $response
             ->assertStatus(200)
@@ -28,13 +27,12 @@ class UserTest extends TestCase
     }
     public function test_incorrectData()
     {
-        $response = $this->put(
-            '/api/login',
-            [
-                "username" => "daniel",
-                "password" => "Password"
-            ]
-        );
+        $data = [
+            "username" => "daniel",
+            "password" => "Password"
+        ];
+
+        $response = $this->putJson('/api/login', $data);
 
         $response
             ->assertStatus(200)
@@ -46,13 +44,12 @@ class UserTest extends TestCase
     }
     public function test_correctData()
     {
-        $response = $this->put(
-            '/api/login',
-            [
-                "username" => "dani",
-                "password" => "Daniel1"
-            ]
-        );
+        $data = [
+            "username" => "dani",
+            "password" => "Daniel1"
+        ];
+
+        $response = $this->putJson('/api/login', $data);
 
         $response
             ->assertStatus(200)
